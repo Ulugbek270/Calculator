@@ -1,0 +1,124 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'calculator/css/styles.css' %}">
+
+    <style>
+        body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-top: 50px;
+}
+
+.calculator, .history {
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    max-width: 400px;
+}
+
+.calculator h1, .history h3 {
+    text-align: center;
+}
+
+.input-container {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.operation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 4px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.result {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="calculator">
+        <h1>Simple Calculator</h1>
+        <form action="{% url 'calculator' %}" method="post">
+            {% csrf_token %}
+            <div class="input-container">
+                <label for="number1">Enter first number:</label>
+                <input type="number" id="number1" name="number1" required>
+            </div>
+            <div class="input-container">
+                <label for="number2">Enter second number:</label>
+                <input type="number" id="number2" name="number2" required>
+            </div>
+            <div class="operation-buttons">
+                <button name="operation" value="add">Add</button>
+                <button name="operation" value="subtract">Subtract</button>
+                <button name="operation" value="multiply">Multiply</button>
+                <button name="operation" value="divide">Divide</button>
+            </div>
+        </form>
+        {% if result %}
+            <div class="result">
+                <p>Result: <strong>{{ result }}</strong></p>
+            </div>
+        {% endif %}
+    </div>
+
+<div class="history">
+    <h3>Calculation History</h3>
+    <ul>
+        {% for item in history %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+</div>
+</body>
+</html>
